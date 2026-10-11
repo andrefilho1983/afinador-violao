@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<!-- Link para o Manifesto -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Meta tag para a cor da barra de status no mobile -->
+<meta name="theme-color" content="#2563EB">
+
+<!-- Script para registrar o Service Worker -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('Service Worker registrado!', reg.scope))
+        .catch(err => console.error('Erro ao registrar Service Worker', err));
+    });
+  }
+</script>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Afinador de Violão</title>
+  <!-- Importando o Tailwind via CDN para testes rápidos -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-6">
+
+  <!-- Botão de Iniciar (Necessário para o navegador liberar o microfone) -->
+  <button id="start-btn" class="mb-8 px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-full font-bold text-lg transition-colors">
+    Ligar Afinador
+  </button>
+
+  <!-- Área Principal do Afinador (Escondida até ligar) -->
+  <div id="tuner-ui" class="w-full max-w-sm flex flex-col items-center opacity-0 transition-opacity duration-500">
+    
+    <!-- Nome da Corda e Instrução -->
+    <h1 id="note-display" class="text-8xl font-black mb-2 text-gray-300">-</h1>
+    <p id="instruction-text" class="text-2xl font-medium text-gray-400 mb-12">Toque uma corda</p>
+
+    <!-- O Medidor (Visor) -->
+    <div class="relative w-full h-16 flex items-center justify-center">
+      
+      <!-- Linha base do medidor -->
+      <div class="w-full h-2 bg-gray-700 rounded-full absolute"></div>
+      
+      <!-- Marcação Central (Alvo) -->
+      <div class="w-1 h-12 bg-white absolute z-10"></div>
+      
+      <!-- O Ponteiro Animado -->
+      <!-- A transição 'transition-all duration-75' garante que o movimento seja fluido -->
+      <div id="pointer" 
+           class="w-4 h-16 bg-red-500 rounded-sm absolute z-20 transition-all duration-75"
+           style="left: 50%; transform: translateX(-50%);">
+      </div>
+      
+    </div>
+    
+    <!-- Legendas do medidor -->
+    <div class="w-full flex justify-between text-gray-500 text-sm mt-4 font-bold uppercase">
+      <span>Frouxa</span>
+      <span>Apertada</span>
+    </div>
+
+  </div>
+
+</body>
+</html>
