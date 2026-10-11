@@ -1,70 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
-<!-- Link para o Manifesto -->
-<link rel="manifest" href="manifest.json">
-
-<!-- Meta tag para a cor da barra de status no mobile -->
-<meta name="theme-color" content="#2563EB">
-
-<!-- Script para registrar o Service Worker -->
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker registrado!', reg.scope))
-        .catch(err => console.error('Erro ao registrar Service Worker', err));
-    });
-  }
-</script>
-
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Afinador de Violão</title>
-  <!-- Importando o Tailwind via CDN para testes rápidos -->
+  <title>Afinador Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#111827">
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-6">
+<!-- Fundo com gradiente escuro -->
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white min-h-screen flex flex-col items-center justify-center p-4">
 
-  <!-- Botão de Iniciar (Necessário para o navegador liberar o microfone) -->
-  <button id="start-btn" class="mb-8 px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-full font-bold text-lg transition-colors">
-    Ligar Afinador
+  <button id="start-btn" class="mb-8 px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-full font-bold text-xl shadow-[0_0_20px_rgba(37,99,235,0.5)] transition-all">
+    Ligar Microfone
   </button>
 
-  <!-- Área Principal do Afinador (Escondida até ligar) -->
-  <div id="tuner-ui" class="w-full max-w-sm flex flex-col items-center opacity-0 transition-opacity duration-500">
+  <!-- Painel Principal estilo Vidro (Glassmorphism) -->
+  <div id="tuner-ui" class="w-full max-w-md bg-gray-800/60 backdrop-blur-lg border border-gray-700 rounded-3xl p-8 flex flex-col items-center shadow-2xl opacity-0 transition-opacity duration-700 hidden">
     
-    <!-- Nome da Corda e Instrução -->
-    <h1 id="note-display" class="text-8xl font-black mb-2 text-gray-300">-</h1>
-    <p id="instruction-text" class="text-2xl font-medium text-gray-400 mb-12">Toque uma corda</p>
+    <!-- Frequência Exata em Hz -->
+    <div class="bg-black/50 px-4 py-1 rounded-full mb-6 border border-gray-700">
+      <span id="freq-display" class="font-mono text-2xl font-bold text-blue-400 tracking-wider">000.0 Hz</span>
+    </div>
 
-    <!-- O Medidor (Visor) -->
-    <div class="relative w-full h-16 flex items-center justify-center">
+    <!-- Nome da Nota Gigante -->
+    <h1 id="note-display" class="text-9xl font-black mb-2 text-gray-200 transition-colors duration-200">-</h1>
+    
+    <!-- Instrução (Aperte / Solte) -->
+    <p id="instruction-text" class="text-xl font-bold uppercase tracking-widest text-gray-500 mb-12">Toque a corda</p>
+
+    <!-- O Novo Gráfico (Régua/Agulha) -->
+    <div class="relative w-full h-20 flex items-center justify-center mb-4">
       
-      <!-- Linha base do medidor -->
-      <div class="w-full h-2 bg-gray-700 rounded-full absolute"></div>
+      <!-- Marcadores de Fundo (A "Régua") -->
+      <div class="absolute w-full flex justify-between px-2 items-center opacity-40">
+        <div class="w-1 h-4 bg-red-500 rounded-full"></div>
+        <div class="w-1 h-6 bg-gray-400 rounded-full"></div>
+        <div class="w-1 h-8 bg-yellow-400 rounded-full"></div>
+        <!-- Centro Exato -->
+        <div class="w-1.5 h-12 bg-green-500 rounded-full shadow-[0_0_10px_#22c55e]"></div>
+        <div class="w-1 h-8 bg-yellow-400 rounded-full"></div>
+        <div class="w-1 h-6 bg-gray-400 rounded-full"></div>
+        <div class="w-1 h-4 bg-red-500 rounded-full"></div>
+      </div>
       
-      <!-- Marcação Central (Alvo) -->
-      <div class="w-1 h-12 bg-white absolute z-10"></div>
-      
-      <!-- O Ponteiro Animado -->
-      <!-- A transição 'transition-all duration-75' garante que o movimento seja fluido -->
+      <!-- A Agulha Animada -->
       <div id="pointer" 
-           class="w-4 h-16 bg-red-500 rounded-sm absolute z-20 transition-all duration-75"
+           class="w-2 h-20 bg-white rounded-full absolute z-20 transition-all duration-75 ease-linear shadow-lg"
            style="left: 50%; transform: translateX(-50%);">
+        <!-- Detalhe redondo na base da agulha -->
+        <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white rounded-full border-4 border-gray-800"></div>
       </div>
       
     </div>
     
-    <!-- Legendas do medidor -->
-    <div class="w-full flex justify-between text-gray-500 text-sm mt-4 font-bold uppercase">
+    <!-- Legendas Inferiores -->
+    <div class="w-full flex justify-between text-gray-400 text-xs font-bold uppercase tracking-widest">
       <span>Frouxa</span>
       <span>Apertada</span>
     </div>
 
   </div>
-<script src="sw.js" type="module"></script>
+
+  <script src="sw.js" type="module"></script>
 </body>
 </html>
