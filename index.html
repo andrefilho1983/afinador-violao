@@ -8,53 +8,46 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#111827">
 </head>
-<!-- Fundo com gradiente escuro -->
 <body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white min-h-screen flex flex-col items-center justify-center p-4">
 
   <button id="start-btn" class="mb-8 px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-full font-bold text-xl shadow-[0_0_20px_rgba(37,99,235,0.5)] transition-all">
     Ligar Microfone
   </button>
 
-  <!-- Painel Principal estilo Vidro (Glassmorphism) -->
   <div id="tuner-ui" class="w-full max-w-md bg-gray-800/60 backdrop-blur-lg border border-gray-700 rounded-3xl p-8 flex flex-col items-center shadow-2xl opacity-0 transition-opacity duration-700 hidden">
     
-    <!-- Frequência Exata em Hz -->
+    <!-- NOVO: Menu de Afinações -->
+    <select id="tuning-selector" class="mb-6 w-full bg-gray-900/80 border border-gray-600 text-gray-200 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 p-3 outline-none text-center font-semibold cursor-pointer appearance-none shadow-inner">
+      <option value="standard">Padrão (E A D G B E)</option>
+      <option value="dropD">Drop D (D A D G B E)</option>
+      <option value="halfStepDown">Meio Tom Abaixo (Eb Ab Db Gb Bb Eb)</option>
+      <option value="dadgad">DADGAD (D A D G A D)</option>
+    </select>
+
     <div class="bg-black/50 px-4 py-1 rounded-full mb-6 border border-gray-700">
       <span id="freq-display" class="font-mono text-2xl font-bold text-blue-400 tracking-wider">000.0 Hz</span>
     </div>
 
-    <!-- Nome da Nota Gigante -->
     <h1 id="note-display" class="text-9xl font-black mb-2 text-gray-200 transition-colors duration-200">-</h1>
     
-    <!-- Instrução (Aperte / Solte) -->
     <p id="instruction-text" class="text-xl font-bold uppercase tracking-widest text-gray-500 mb-12">Toque a corda</p>
 
-    <!-- O Novo Gráfico (Régua/Agulha) -->
     <div class="relative w-full h-20 flex items-center justify-center mb-4">
-      
-      <!-- Marcadores de Fundo (A "Régua") -->
       <div class="absolute w-full flex justify-between px-2 items-center opacity-40">
         <div class="w-1 h-4 bg-red-500 rounded-full"></div>
         <div class="w-1 h-6 bg-gray-400 rounded-full"></div>
         <div class="w-1 h-8 bg-yellow-400 rounded-full"></div>
-        <!-- Centro Exato -->
         <div class="w-1.5 h-12 bg-green-500 rounded-full shadow-[0_0_10px_#22c55e]"></div>
         <div class="w-1 h-8 bg-yellow-400 rounded-full"></div>
         <div class="w-1 h-6 bg-gray-400 rounded-full"></div>
         <div class="w-1 h-4 bg-red-500 rounded-full"></div>
       </div>
       
-      <!-- A Agulha Animada -->
-      <div id="pointer" 
-           class="w-2 h-20 bg-white rounded-full absolute z-20 transition-all duration-75 ease-linear shadow-lg"
-           style="left: 50%; transform: translateX(-50%);">
-        <!-- Detalhe redondo na base da agulha -->
+      <div id="pointer" class="w-2 h-20 bg-white rounded-full absolute z-20 transition-all duration-75 ease-linear shadow-lg" style="left: 50%; transform: translateX(-50%);">
         <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white rounded-full border-4 border-gray-800"></div>
       </div>
-      
     </div>
     
-    <!-- Legendas Inferiores -->
     <div class="w-full flex justify-between text-gray-400 text-xs font-bold uppercase tracking-widest">
       <span>Frouxa</span>
       <span>Apertada</span>
@@ -62,6 +55,6 @@
 
   </div>
 
-  <script src="sw.js" type="module"></script>
+  <script src="app.js" type="module"></script>
 </body>
 </html>
